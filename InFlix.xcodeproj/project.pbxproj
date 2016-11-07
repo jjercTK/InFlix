@@ -69,6 +69,7 @@
 		811AA7F41DCCD34700078374 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				811AA7EB1DCCD32600078374 /* LaunchScreen.storyboard */,
 				811AA7E21DCCD32600078374 /* AppDelegate.swift */,
 				811AA7E91DCCD32600078374 /* Assets.xcassets */,
 				811AA7EE1DCCD32600078374 /* Info.plist */,
@@ -79,7 +80,6 @@
 		811AA7F51DCCD38400078374 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				811AA7EB1DCCD32600078374 /* LaunchScreen.storyboard */,
 				811AA7E61DCCD32600078374 /* Main.storyboard */,
 				811AA7FC1DCCD8BF00078374 /* MovieTableViewCell.swift */,
 			);

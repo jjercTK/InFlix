@@ -9,43 +9,49 @@
 import UIKit
 
 class MovieTableViewController: UITableViewController {
+    
+    // MARK: Properties
+    
+    var movies = [Movie]()
+    
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        loadSampleMovies()
+    }
+    
+    // MARK: Methods
+    
+    func loadSampleMovies(){
+        for _ in 0...10 {
+            movies += [Movie()]
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
+    // MARK: Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return movies.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
+        let movie = movies[indexPath.row]
 
-        // Configure the cell...
+        cell.titleLabel.text = movie.title
+        cell.categoryLabel.text = movie.category
+        cell.ratingLabel.text = String(describing: movie.rating!)
+        cell.yearLabel.text = String(describing: movie.year!)
+        cell.poster.image = movie.poster
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

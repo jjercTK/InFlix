@@ -20,6 +20,8 @@ class Movie {
     var director: String?
     var length: Int? //minutes
     
+    static var count = 1
+    
     // MARK: Initializers
     
     init(title: String?, rating: Double?, poster: UIImage?, category: String?, year: Int?, director: String?, length: Int?) {
@@ -30,6 +32,17 @@ class Movie {
         self.year = year
         self.director = director
         self.length = length
+    }
+    
+    init(){
+        self.title = "Title \(Movie.count)"
+        self.rating = 3
+        self.poster = #imageLiteral(resourceName: "defaultPoster")
+        self.category = "Category \(Movie.count)"
+        self.year = 2016
+        self.director = "Director \(Movie.count)"
+        self.length = 120
+        Movie.count += 1
     }
     
 }
