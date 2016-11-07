@@ -1,57 +1,51 @@
 //
-//  MovieTableViewController.swift
+//  FavoriteTableViewController.swift
 //  InFlix
 //
-//  Created by Juanjo on 11/4/16.
+//  Created by Juanjo on 11/7/16.
 //  Copyright © 2016 Tektonlabs. All rights reserved.
 //
 
 import UIKit
 
-class MovieTableViewController: UITableViewController {
-    
-    // MARK: Properties
-    
-    var movies = [Movie]()
-    
-    // MARK: Life Cycle
+class FavoriteTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSampleMovies()
-    }
-    
-    // MARK: Methods
-    
-    func loadSampleMovies(){
-        for _ in 0...10 {
-            movies += [Movie()]
-        }
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    // MARK: Table view data source
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        // #warning Incomplete implementation, return the number of sections
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        // #warning Incomplete implementation, return the number of rows
+        return 0
     }
 
-    
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
-        let movie = movies[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        cell.titleLabel.text = movie.title
-        cell.categoryLabel.text = movie.category
-        cell.ratingLabel.text = String(describing: movie.rating!)
-        cell.yearLabel.text = String(describing: movie.year!)
-        cell.poster.image = movie.poster
+        // Configure the cell...
 
         return cell
     }
+    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -88,32 +82,14 @@ class MovieTableViewController: UITableViewController {
     }
     */
 
-    
+    /*
     // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "ShowDetail"?:
-            let destination = segue.destination.content as! MovieViewController
-            if let selectedMovieCell = sender as? MovieTableViewCell {
-                let indexPath = tableView.indexPath(for: selectedMovieCell)!
-                let selectedMovie = movies[indexPath.row]
-                destination.movie = selectedMovie
-            }
-        default:
-            print("unknown segue")
-        }
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
-    
+    */
 
-}
-
-extension UIViewController {
-    var content: UIViewController {
-        if let navcon = self as? UINavigationController {
-            return navcon.visibleViewController ?? self
-        } else {
-            return self
-        }
-    }
 }
