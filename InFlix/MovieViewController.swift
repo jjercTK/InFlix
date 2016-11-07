@@ -12,7 +12,11 @@ class MovieViewController: UIViewController {
     
     // MARK: Properties
     
-    @IBOutlet weak var poster: UIImageView!
+    @IBOutlet weak var poster: UIImageView! {
+        didSet {
+            poster.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPoster)))
+        }
+    }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var directoryLabel: UILabel!
@@ -48,14 +52,25 @@ class MovieViewController: UIViewController {
     
 
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        switch segue.identifier {
+        case "showImage"?:
+            let destination = segue.destination.content as! PosterViewController
+            if let poster = sender as? UIImageView {
+                destination.poster = poster.image
+            }
+            
+        default:
+            print("unknown segue")
+        }
     }
-    */
+    
+    func showPoster(){
+        performSegue(withIdentifier: "showImage", sender: poster)
+    }
 
 }
