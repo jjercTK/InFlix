@@ -37,6 +37,7 @@ class MovieTableViewCell: UITableViewCell {
     @IBAction func toogleHeart(_ sender: HeartControl) {
         heart.isHighlighted = !heart.isHighlighted
         delegate?.favoriteCell(self, didToogleButton: heart.isHighlighted)
+        movie?.isFavorite = heart.isHighlighted
     }
 
 }
