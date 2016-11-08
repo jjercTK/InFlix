@@ -8,17 +8,26 @@
 
 import UIKit
 
-class MovieTableViewController: UITableViewController, FavoriteCellDelegate {
+class MovieTableViewController: UITableViewController {
     
     // MARK: Properties
     
     var movies = [Movie]()
+    var filteredMovies = [Movie]()
+    let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSampleMovies()
+        
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
+
     }
     
     // MARK: Methods
@@ -28,26 +37,44 @@ class MovieTableViewController: UITableViewController, FavoriteCellDelegate {
             movies += [Movie()]
         }
     }
-
-    // MARK: UITableViewController
-
+    
+    func filterContentForSearchText(_ searchText: String) {
+        filteredMovies = movies.filter({( movie : Movie) -> Bool in
+            return movie.title!.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
+    }
+    
+    // MARK: UITableViewDataSource
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if shouldShowFilteredMovies() {
+            return filteredMovies.count
+        }
         return movies.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.MovieTableViewCell, for: indexPath) as! MovieTableViewCell
-        let movie = movies[indexPath.row]
-        
+        let cell = tableView .dequeueReusableCell(withIdentifier: Storyboard.MovieTableViewCell, for: indexPath) as! MovieTableViewCell
+        let movie: Movie
+        if shouldShowFilteredMovies() {
+            movie = filteredMovies[indexPath.row]
+        } else {
+            movie = movies[indexPath.row]
+        }
         cell.movie = movie
         cell.delegate = self
-
+        
         return cell
+    }
+    
+    func shouldShowFilteredMovies() -> Bool {
+        return searchController.isActive && searchController.searchBar.text != ""
     }
     
     // MARK: Navigation
@@ -65,15 +92,37 @@ class MovieTableViewController: UITableViewController, FavoriteCellDelegate {
             print("unknown segue")
         }
     }
-    
-    // MARK: FavoriteCellDelegate
-    
+
+}
+
+extension MovieTableViewController: FavoriteCellDelegate {
+   
     func favoriteCell(_ favoriteCell: MovieTableViewCell, didToogleButton toogle: Bool) {
         if toogle {
             NotificationCenter.default.post(Notification(name: NotificationCenterKey.AddFavorite, object: favoriteCell.movie, userInfo: nil))
         } else {
             NotificationCenter.default.post(Notification(name: NotificationCenterKey.RemoveFavorite, object: favoriteCell.movie, userInfo: nil))
         }
+    }
+    
+}
+
+extension MovieTableViewController: UISearchBarDelegate {
+    
+    // MARK: UISearchBarDelegate
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!)
+    }
+    
+}
+
+extension MovieTableViewController: UISearchResultsUpdating {
+    
+    // MARK: UISearchResultsUpdating
+
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
     
 }
