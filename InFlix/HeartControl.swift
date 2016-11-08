@@ -8,6 +8,6 @@
 
 import UIKit
 
-class HeartControl: UIImageView {
+class HeartControl: UIControl {
 
 }

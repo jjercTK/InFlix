@@ -34,8 +34,7 @@ class FavoriteTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
     }
     
     func addFavorite(_ movie: Movie){

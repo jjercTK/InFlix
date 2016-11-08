@@ -19,7 +19,7 @@ class MovieTableViewCell: UITableViewCell {
             ratingLabel.text = String(describing: movie!.rating!)
             yearLabel.text = String(describing: movie!.year!)
             poster.image = movie!.poster
-            heartControl.isHighlighted = movie!.isFavorite
+            heart.isHighlighted = movie!.isFavorite
         }
     }
     
@@ -30,25 +30,13 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var poster: UIImageView!
-    @IBOutlet weak var heartControl: HeartControl! {
-        didSet {
-            heartControl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toogleHeart(_:))))
-        }
-    }
+    @IBOutlet weak var heart: UIImageView!
     
-    // MARK: Table View Cell
+    // MARK: Action
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    func toogleHeart(_ sender: UITapGestureRecognizer){
-        let heart = sender.view as! UIImageView
+    @IBAction func toogleHeart(_ sender: HeartControl) {
         heart.isHighlighted = !heart.isHighlighted
         delegate?.favoriteCell(self, didToogleButton: heart.isHighlighted)
     }
-    
 
 }

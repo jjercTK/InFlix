@@ -250,26 +250,37 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyHeart" highlightedImage="filledHeart" translatesAutoresizingMaskIntoConstraints="NO" id="iz2-a0-kxT" customClass="HeartControl" customModule="InFlix" customModuleProvider="target">
-                                            <rect key="frame" x="297" y="8" width="70" height="70"/>
-                                            <gestureRecognizers/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyG-9M-0RO" customClass="HeartControl" customModule="InFlix" customModuleProvider="target">
+                                            <rect key="frame" x="305" y="0.0" width="70" height="70"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyHeart" highlightedImage="filledHeart" translatesAutoresizingMaskIntoConstraints="NO" id="bKh-ZS-wd8">
+                                                    <rect key="frame" x="17" y="8" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="5DV-UI-04A"/>
+                                                        <constraint firstAttribute="width" constant="45" id="bEE-9B-cNP"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="70" id="MCu-Mx-rFk"/>
-                                                <constraint firstAttribute="width" constant="70" id="qVx-ty-tPS"/>
+                                                <constraint firstAttribute="width" constant="70" id="E9Y-Si-FqG"/>
+                                                <constraint firstAttribute="height" constant="70" id="oJ5-LF-pTe"/>
                                             </constraints>
                                             <connections>
-                                                <outletCollection property="gestureRecognizers" destination="hPo-VG-pZp" appends="YES" id="4xm-Ds-tOH"/>
+                                                <action selector="toogleHeart:" destination="Yle-q4-0Hs" eventType="touchUpInside" id="FdH-RO-vqa"/>
                                             </connections>
-                                        </imageView>
+                                        </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="topMargin" secondItem="iz2-a0-kxT" secondAttribute="top" id="VMC-ws-OAg"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="iz2-a0-kxT" secondAttribute="trailing" id="bZ3-tK-0FL"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="bKh-ZS-wd8" secondAttribute="trailing" id="B2p-gZ-enE"/>
+                                        <constraint firstAttribute="trailing" secondItem="zyG-9M-0RO" secondAttribute="trailing" id="H04-Dl-cxo"/>
+                                        <constraint firstItem="zyG-9M-0RO" firstAttribute="top" secondItem="n7I-ra-KN2" secondAttribute="top" id="f7x-t0-mRT"/>
+                                        <constraint firstAttribute="topMargin" secondItem="bKh-ZS-wd8" secondAttribute="top" id="xx3-lx-6cI"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="categoryLabel" destination="iyN-z2-Wfp" id="y5n-sf-qJw"/>
-                                    <outlet property="heartControl" destination="iz2-a0-kxT" id="S7W-Mr-gDM"/>
+                                    <outlet property="heart" destination="bKh-ZS-wd8" id="g9h-4i-qwC"/>
                                     <outlet property="poster" destination="Wqb-Jp-ysE" id="phW-4N-IKJ"/>
                                     <outlet property="ratingLabel" destination="NQl-gl-AeC" id="WRI-ez-tLu"/>
                                     <outlet property="titleLabel" destination="9J2-qG-AnC" id="U0e-WT-4d3"/>
