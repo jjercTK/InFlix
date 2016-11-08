@@ -27,7 +27,6 @@ class MovieTableViewController: UITableViewController, FavoriteCellDelegate {
         for _ in 0...10 {
             movies += [Movie()]
         }
-        movies.first!.isFavorite = true
     }
 
     // MARK: UITableViewController

@@ -45,20 +45,24 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lsc-qe-v9M">
-                                            <rect key="frame" x="302" y="40" width="65" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lsc-qe-v9M">
+                                            <rect key="frame" x="302" y="41.5" width="65" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Lsc-qe-v9M" firstAttribute="trailing" secondItem="tQf-Be-6K1" secondAttribute="trailingMargin" id="N00-M8-INY"/>
+                                        <constraint firstItem="Lsc-qe-v9M" firstAttribute="bottom" secondItem="tQf-Be-6K1" secondAttribute="bottomMargin" id="oSn-Sz-TZL"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="categoryLabel" destination="Lsc-qe-v9M" id="wAO-G9-VNW"/>
                                     <outlet property="poster" destination="ta3-ah-PEm" id="C7S-vz-iov"/>
                                     <outlet property="titleLabel" destination="Xyi-8I-JIB" id="ahe-11-4YJ"/>
                                     <outlet property="yearLabel" destination="j2c-TE-zeZ" id="DWh-zd-Sdl"/>
+                                    <segue destination="uLY-rv-QGE" kind="show" identifier="showMovieViewController" id="4xZ-nm-jgx"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -368,4 +372,7 @@
         <image name="filledHeart" width="25" height="25"/>
         <image name="filledMovie" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="4xZ-nm-jgx"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -112,14 +112,21 @@ class FavoriteTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        switch segue.identifier {
+        case Storyboard.ShowMovieViewController?:
+            let destination = segue.destination.content as! MovieViewController
+            if let selectedMovieCell = sender as? FavoriteMovieTableViewCell {
+                let indexPath = tableView.indexPath(for: selectedMovieCell)!
+                let selectedMovie = favoriteMovies[indexPath.row]
+                destination.movie = selectedMovie
+            }
+        default:
+            print("unknown segue")
+        }
     }
-    */
 
 }

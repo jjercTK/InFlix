@@ -102,10 +102,10 @@
 		811AA7F51DCCD38400078374 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				81DBA58E1DD11576002F8ED2 /* HeartControl.swift */,
 				811AA7E61DCCD32600078374 /* Main.storyboard */,
 				811AA7FC1DCCD8BF00078374 /* MovieTableViewCell.swift */,
 				81DBA5861DD0DB60002F8ED2 /* FavoriteMovieTableViewCell.swift */,
+				81DBA58E1DD11576002F8ED2 /* HeartControl.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
