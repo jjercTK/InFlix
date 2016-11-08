@@ -46,4 +46,8 @@ class Movie {
         Movie.count += 1
     }
     
+    func toogleFavorite(){
+        isFavorite = !isFavorite
+    }
+    
 }
