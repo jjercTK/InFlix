@@ -7,19 +7,20 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Favorites-->
         <scene sceneID="RaP-Ho-EgA">
             <objects>
-                <tableViewController id="nV8-VC-AXd" sceneMemberID="viewController">
+                <tableViewController id="nV8-VC-AXd" customClass="FavoriteTableViewController" customModule="InFlix" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="fJY-uR-jhz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="v02-np-qP5" customClass="FavoriteMovieTableViewCell" customModule="InFlix" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="favoriteMovieTableViewCell" rowHeight="70" id="v02-np-qP5" customClass="FavoriteMovieTableViewCell" customModule="InFlix" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v02-np-qP5" id="tQf-Be-6K1">
@@ -168,7 +169,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="neC-zd-SIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="kIB-2v-Cbc">
                     <connections>
-                        <segue destination="ily-YZ-CRV" kind="show" identifier="showImage" id="31j-gz-Wz5"/>
+                        <segue destination="ily-YZ-CRV" kind="show" identifier="showPosterViewController" id="31j-gz-Wz5"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -210,7 +211,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieTableViewCell" rowHeight="124" id="Yle-q4-0Hs" customClass="MovieTableViewCell" customModule="InFlix" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="movieTableViewCell" rowHeight="124" id="Yle-q4-0Hs" customClass="MovieTableViewCell" customModule="InFlix" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="124"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yle-q4-0Hs" id="n7I-ra-KN2">
@@ -218,7 +219,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9J2-qG-AnC">
-                                            <rect key="frame" x="131" y="8" width="196" height="21"/>
+                                            <rect key="frame" x="131" y="8" width="140" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <nil key="textColor"/>
@@ -235,13 +236,6 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQl-gl-AeC">
-                                            <rect key="frame" x="132" y="65" width="110" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve5-G4-t1U">
                                             <rect key="frame" x="132" y="94" width="110" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -249,15 +243,38 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQl-gl-AeC">
+                                            <rect key="frame" x="132" y="65" width="110" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyHeart" highlightedImage="filledHeart" translatesAutoresizingMaskIntoConstraints="NO" id="iz2-a0-kxT" customClass="HeartControl" customModule="InFlix" customModuleProvider="target">
+                                            <rect key="frame" x="297" y="8" width="70" height="70"/>
+                                            <gestureRecognizers/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="70" id="MCu-Mx-rFk"/>
+                                                <constraint firstAttribute="width" constant="70" id="qVx-ty-tPS"/>
+                                            </constraints>
+                                            <connections>
+                                                <outletCollection property="gestureRecognizers" destination="hPo-VG-pZp" appends="YES" id="4xm-Ds-tOH"/>
+                                            </connections>
+                                        </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="topMargin" secondItem="iz2-a0-kxT" secondAttribute="top" id="VMC-ws-OAg"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="iz2-a0-kxT" secondAttribute="trailing" id="bZ3-tK-0FL"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="categoryLabel" destination="iyN-z2-Wfp" id="y5n-sf-qJw"/>
+                                    <outlet property="heartControl" destination="iz2-a0-kxT" id="S7W-Mr-gDM"/>
                                     <outlet property="poster" destination="Wqb-Jp-ysE" id="phW-4N-IKJ"/>
                                     <outlet property="ratingLabel" destination="NQl-gl-AeC" id="WRI-ez-tLu"/>
                                     <outlet property="titleLabel" destination="9J2-qG-AnC" id="U0e-WT-4d3"/>
                                     <outlet property="yearLabel" destination="ve5-G4-t1U" id="r4h-vD-d3F"/>
-                                    <segue destination="uLY-rv-QGE" kind="show" identifier="ShowDetail" id="LEY-W5-Usq"/>
+                                    <segue destination="uLY-rv-QGE" kind="show" identifier="showMovieViewController" id="LEY-W5-Usq"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -269,8 +286,13 @@
                     <navigationItem key="navigationItem" title="Movies" id="BQm-mh-KHd"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jId-Ky-lbl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="hPo-VG-pZp">
+                    <connections>
+                        <action selector="favorite:" destination="s6S-Lh-idc" id="gqp-t8-lU1"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1612" y="997"/>
+            <point key="canvasLocation" x="1612" y="996.25187406296857"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="NOF-3i-lOw">

@@ -19,6 +19,7 @@ class Movie {
     var year: Int?
     var director: String?
     var length: Int? //minutes
+    var isFavorite: Bool = false
     
     static var count = 1
     

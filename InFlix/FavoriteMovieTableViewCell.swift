@@ -12,6 +12,14 @@ class FavoriteMovieTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
+    var movie: Movie? {
+        didSet {
+            poster.image = movie!.poster
+            titleLabel.text = movie!.title
+            yearLabel.text = String(describing: movie!.year!)
+            categoryLabel.text = movie!.category
+        }
+    }
     @IBOutlet weak var poster: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
@@ -21,8 +29,6 @@ class FavoriteMovieTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

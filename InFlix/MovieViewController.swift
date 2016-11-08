@@ -58,7 +58,7 @@ class MovieViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "showImage"?:
+        case Storyboard.ShowPosterViewController?:
             let destination = segue.destination.content as! PosterViewController
             if let poster = sender as? UIImageView {
                 destination.poster = poster.image
@@ -70,7 +70,7 @@ class MovieViewController: UIViewController {
     }
     
     func showPoster(){
-        performSegue(withIdentifier: "showImage", sender: poster)
+        performSegue(withIdentifier: Storyboard.ShowPosterViewController, sender: poster)
     }
 
 }

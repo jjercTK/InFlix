@@ -9,43 +9,74 @@
 import UIKit
 
 class FavoriteTableViewController: UITableViewController {
+    
+    // MARK: Properties
+    
+    var favoriteMovies = [Movie]()
+    
+    // MARK: Life Cycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        NotificationCenter.default.addObserver(forName: NotificationCenterKey.AddFavorite, object: nil, queue: nil) { [weak self] notification in
+            if let movie = notification.object as? Movie {
+                self?.addFavorite(movie)
+            }
+        }
+        
+        NotificationCenter.default.addObserver(forName: NotificationCenterKey.RemoveFavorite, object: nil, queue: nil) { [weak self] notification in
+            if let movie = notification.object as? Movie {
+                self?.removeFavorite(movie)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+    }
+    
+    func addFavorite(_ movie: Movie){
+        favoriteMovies += [movie]
+        tableView.insertRows(at: [IndexPath(row: favoriteMovies.count - 1, section: 0)], with: .automatic)
+    }
+    
+    func removeFavorite(_ movieToRemove: Movie){
+        for (index,movie) in favoriteMovies.enumerated() {
+            if movie === movieToRemove {
+                favoriteMovies.remove(at: index)
+                tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                break
+            }
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
+    // MARK: UITableViewDataSource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return favoriteMovies.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let favoriteMovie = favoriteMovies[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.FavoriteMovieTableViewCell, for: indexPath) as! FavoriteMovieTableViewCell
 
-        // Configure the cell...
+       cell.movie = favoriteMovie
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
