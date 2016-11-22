@@ -19,17 +19,7 @@ class FavoriteTableViewController: UITableViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        NotificationCenter.default.addObserver(forName: NotificationCenterKey.AddFavorite, object: nil, queue: nil) { [weak self] notification in
-            if let movie = notification.object as? Movie {
-                self?.addFavorite(movie)
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: NotificationCenterKey.RemoveFavorite, object: nil, queue: nil) { [weak self] notification in
-            if let movie = notification.object as? Movie {
-                self?.removeFavorite(movie)
-            }
-        }
+        addFavoriteObservers()
     }
 
     override func viewDidLoad() {
@@ -38,23 +28,8 @@ class FavoriteTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = editButtonItem
     }
     
-    func addFavorite(_ movie: Movie){
-        favoriteMovies += [movie]
-        tableView.insertRows(at: [IndexPath(row: favoriteMovies.count - 1, section: 0)], with: .automatic)
-    }
-    
-    func removeFavorite(_ movieToRemove: Movie){
-        for (index,movie) in favoriteMovies.enumerated() {
-            if movie === movieToRemove {
-                favoriteMovies.remove(at: index)
-                tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                break
-            }
-        }
-    }
-    
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        removeFavoriteObservers()
     }
 
     // MARK: UITableViewDataSource
@@ -77,33 +52,16 @@ class FavoriteTableViewController: UITableViewController {
         return cell
     }
     
-
-    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            favoriteMovies[indexPath.row].toogleFavorite()
+            let favoriteMovie = favoriteMovies[indexPath.row]
+            favoriteMovie.toogleFavorite()
             favoriteMovies.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            NotificationCenter.default.post(Notification(name: NotificationCenterKey.RemoveFavorite, object: favoriteMovie, userInfo: nil))
         }    
     }
-    
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,4 +78,25 @@ class FavoriteTableViewController: UITableViewController {
         }
     }
 
+}
+
+extension FavoriteTableViewController: FavoriteMovieManager {
+    
+    // MARK: FavoriteMovieManager
+    
+    func addFavorite(_ movie: Movie){
+        favoriteMovies += [movie]
+        tableView.insertRows(at: [IndexPath(row: favoriteMovies.count - 1, section: 0)], with: .automatic)
+    }
+    
+    func removeFavorite(_ movieToRemove: Movie){
+        for (index,movie) in favoriteMovies.enumerated() {
+            if movie === movieToRemove {
+                favoriteMovies.remove(at: index)
+                tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                break
+            }
+        }
+    }
+    
 }

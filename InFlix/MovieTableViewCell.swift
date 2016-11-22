@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovieCellDelegate: class {
+    func movieCell(_ movieCell: MovieTableViewCell, didToogleButton toogle: Bool)
+}
+
 class MovieTableViewCell: UITableViewCell {
     
     // MARK: Properties
@@ -23,7 +27,7 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
-    var delegate: FavoriteCellDelegate?
+    weak var delegate: MovieCellDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
@@ -36,7 +40,7 @@ class MovieTableViewCell: UITableViewCell {
     
     @IBAction func toogleHeart(_ sender: HeartControl) {
         heart.isHighlighted = !heart.isHighlighted
-        delegate?.favoriteCell(self, didToogleButton: heart.isHighlighted)
+        delegate?.movieCell(self, didToogleButton: heart.isHighlighted)
         movie?.isFavorite = heart.isHighlighted
     }
 

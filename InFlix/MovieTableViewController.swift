@@ -20,14 +20,21 @@ class MovieTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSampleMovies()
         
+        loadSampleMovies()
+        addFavoriteObservers()
+        
+        // Setup search bar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
 
+    }
+    
+    deinit {
+        removeFavoriteObservers()
     }
     
     // MARK: Methods
@@ -95,13 +102,15 @@ class MovieTableViewController: UITableViewController {
 
 }
 
-extension MovieTableViewController: FavoriteCellDelegate {
+extension MovieTableViewController: MovieCellDelegate {
+    
+    // MARK: MovieCellDelegate
    
-    func favoriteCell(_ favoriteCell: MovieTableViewCell, didToogleButton toogle: Bool) {
+    func movieCell(_ movieCell: MovieTableViewCell, didToogleButton toogle: Bool) {
         if toogle {
-            NotificationCenter.default.post(Notification(name: NotificationCenterKey.AddFavorite, object: favoriteCell.movie, userInfo: nil))
+            NotificationCenter.default.post(Notification(name: NotificationCenterKey.AddFavorite, object: movieCell.movie, userInfo: nil))
         } else {
-            NotificationCenter.default.post(Notification(name: NotificationCenterKey.RemoveFavorite, object: favoriteCell.movie, userInfo: nil))
+            NotificationCenter.default.post(Notification(name: NotificationCenterKey.RemoveFavorite, object: movieCell.movie, userInfo: nil))
         }
     }
     
@@ -123,6 +132,23 @@ extension MovieTableViewController: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+}
+
+extension MovieTableViewController: FavoriteMovieManager {
+    
+    // MARK: FavoriteMovieManager
+    
+    func addFavorite(_ movie: Movie) {}
+    
+    func removeFavorite(_ movieToRemove: Movie){
+        for (index,movie) in movies.enumerated() {
+            if movie === movieToRemove {
+                tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                break
+            }
+        }
     }
     
 }
