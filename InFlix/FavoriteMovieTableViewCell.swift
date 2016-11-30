@@ -14,7 +14,13 @@ class FavoriteMovieTableViewCell: UITableViewCell {
     
     var movie: Movie? {
         didSet {
-            poster.image = movie!.poster
+            let _ = NetflixRoulette.client().taskForGETImage(url: movie!.posterURL!){ (imageData, error) in
+                if error == nil {
+                    self.poster.image = UIImage(data: imageData!)
+                } else {
+                    self.poster.image = #imageLiteral(resourceName: "defaultPoster")
+                }
+            }
             titleLabel.text = movie!.title
             yearLabel.text = String(describing: movie!.year!)
             categoryLabel.text = movie!.category

@@ -30,7 +30,6 @@ extension FavoriteMovieManager {
                 self?.removeFavorite(movie)
             }
         }
-        
     }
     
     func removeFavoriteObservers(){

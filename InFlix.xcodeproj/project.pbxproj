@@ -16,7 +16,10 @@
 		811AA8011DCCD8FF00078374 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811AA8001DCCD8FF00078374 /* Movie.swift */; };
 		81392A2C1DE4AE5700481D88 /* FavoriteMovieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81392A2B1DE4AE5700481D88 /* FavoriteMovieManager.swift */; };
 		8158171C1DD20FA400F095E0 /* NotificationCenterKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8158171B1DD20FA400F095E0 /* NotificationCenterKey.swift */; };
+		8174D10E1DEC7AE6007D3A04 /* NRClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174D10D1DEC7AE6007D3A04 /* NRClient.swift */; };
+		8174D1101DEC7CD4007D3A04 /* NRConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174D10F1DEC7CD4007D3A04 /* NRConfig.swift */; };
 		81BF0AC21DD21A1000166888 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF0AC11DD21A1000166888 /* Storyboard.swift */; };
+		81CAFB141DECBB1000D0A67A /* NRConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAFB131DECBB1000D0A67A /* NRConvenience.swift */; };
 		81DBA5831DD0CF6A002F8ED2 /* FavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DBA5821DD0CF6A002F8ED2 /* FavoriteTableViewController.swift */; };
 		81DBA5851DD0CF8D002F8ED2 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DBA5841DD0CF8D002F8ED2 /* MovieViewController.swift */; };
 		81DBA5871DD0DB60002F8ED2 /* FavoriteMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DBA5861DD0DB60002F8ED2 /* FavoriteMovieTableViewCell.swift */; };
@@ -37,7 +40,10 @@
 		811AA8001DCCD8FF00078374 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		81392A2B1DE4AE5700481D88 /* FavoriteMovieManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteMovieManager.swift; sourceTree = "<group>"; };
 		8158171B1DD20FA400F095E0 /* NotificationCenterKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterKey.swift; sourceTree = "<group>"; };
+		8174D10D1DEC7AE6007D3A04 /* NRClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRClient.swift; sourceTree = "<group>"; };
+		8174D10F1DEC7CD4007D3A04 /* NRConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRConfig.swift; sourceTree = "<group>"; };
 		81BF0AC11DD21A1000166888 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
+		81CAFB131DECBB1000D0A67A /* NRConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NRConvenience.swift; sourceTree = "<group>"; };
 		81DBA5821DD0CF6A002F8ED2 /* FavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewController.swift; sourceTree = "<group>"; };
 		81DBA5841DD0CF8D002F8ED2 /* MovieViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
 		81DBA5861DD0DB60002F8ED2 /* FavoriteMovieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteMovieTableViewCell.swift; sourceTree = "<group>"; };
@@ -113,6 +119,10 @@
 				811AA8001DCCD8FF00078374 /* Movie.swift */,
 				81BF0AC11DD21A1000166888 /* Storyboard.swift */,
 				8158171B1DD20FA400F095E0 /* NotificationCenterKey.swift */,
+				8174D10D1DEC7AE6007D3A04 /* NRClient.swift */,
+				8174D10F1DEC7CD4007D3A04 /* NRConfig.swift */,
+				81CAFB131DECBB1000D0A67A /* NRConvenience.swift */,
+				81392A2B1DE4AE5700481D88 /* FavoriteMovieManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -124,7 +134,6 @@
 				81DBA5821DD0CF6A002F8ED2 /* FavoriteTableViewController.swift */,
 				81DBA5841DD0CF8D002F8ED2 /* MovieViewController.swift */,
 				81DBA5881DD0E442002F8ED2 /* PosterViewController.swift */,
-				81392A2B1DE4AE5700481D88 /* FavoriteMovieManager.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -207,10 +216,13 @@
 				8158171C1DD20FA400F095E0 /* NotificationCenterKey.swift in Sources */,
 				81BF0AC21DD21A1000166888 /* Storyboard.swift in Sources */,
 				81392A2C1DE4AE5700481D88 /* FavoriteMovieManager.swift in Sources */,
+				8174D1101DEC7CD4007D3A04 /* NRConfig.swift in Sources */,
 				81DBA5891DD0E442002F8ED2 /* PosterViewController.swift in Sources */,
 				811AA7FB1DCCD89D00078374 /* MovieTableViewController.swift in Sources */,
 				81DBA58F1DD11576002F8ED2 /* HeartControl.swift in Sources */,
+				8174D10E1DEC7AE6007D3A04 /* NRClient.swift in Sources */,
 				81DBA5871DD0DB60002F8ED2 /* FavoriteMovieTableViewCell.swift in Sources */,
+				81CAFB141DECBB1000D0A67A /* NRConvenience.swift in Sources */,
 				811AA7E31DCCD32600078374 /* AppDelegate.swift in Sources */,
 				811AA8011DCCD8FF00078374 /* Movie.swift in Sources */,
 				811AA7FD1DCCD8BF00078374 /* MovieTableViewCell.swift in Sources */,
@@ -337,6 +349,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KL955RL3SL;
 				INFOPLIST_FILE = InFlix/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tektonlabs.InFlix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -350,6 +363,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = KL955RL3SL;
 				INFOPLIST_FILE = InFlix/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tektonlabs.InFlix;
 				PRODUCT_NAME = "$(TARGET_NAME)";

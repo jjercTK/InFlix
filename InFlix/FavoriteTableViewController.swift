@@ -14,6 +14,7 @@ class FavoriteTableViewController: UITableViewController {
     
     var favoriteMovies = [Movie]()
     
+    
     // MARK: Life Cycle
     
     override func awakeFromNib() {
@@ -25,11 +26,30 @@ class FavoriteTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let movies = loadMeals() {
+            favoriteMovies = movies
+        }
+        
         navigationItem.leftBarButtonItem = editButtonItem
     }
     
     deinit {
         removeFavoriteObservers()
+    }
+    
+    // MARK: Methods
+    
+    func saveMovies() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(favoriteMovies, toFile: Movie.ArchiveURL.path)
+        if !isSuccessfulSave {
+            print("Failed to save movies...")
+        }
+    }
+    
+    func loadMeals() -> [Movie]? {
+        let movies = NSKeyedUnarchiver.unarchiveObject(withFile: Movie.ArchiveURL.path) as? [Movie]
+        return movies
+        
     }
 
     // MARK: UITableViewDataSource
@@ -86,6 +106,7 @@ extension FavoriteTableViewController: FavoriteMovieManager {
     
     func addFavorite(_ movie: Movie){
         favoriteMovies += [movie]
+        saveMovies()
         tableView.insertRows(at: [IndexPath(row: favoriteMovies.count - 1, section: 0)], with: .automatic)
     }
     
@@ -93,6 +114,7 @@ extension FavoriteTableViewController: FavoriteMovieManager {
         for (index,movie) in favoriteMovies.enumerated() {
             if movie === movieToRemove {
                 favoriteMovies.remove(at: index)
+                saveMovies()
                 tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 break
             }

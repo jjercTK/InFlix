@@ -32,7 +32,13 @@ class MovieViewController: UIViewController {
         super.viewDidLoad()
 
         if let movie = movie {
-            poster.image = movie.poster
+            let _ = NetflixRoulette.client().taskForGETImage(url: movie.posterURL!){ (imageData, error) in
+                if error == nil {
+                    self.poster.image = UIImage(data: imageData!)
+                } else {
+                    self.poster.image = #imageLiteral(resourceName: "defaultPoster")
+                }
+            }
             titleLabel.text = movie.title
             categoryLabel.text = movie.category
             directoryLabel.text = movie.director

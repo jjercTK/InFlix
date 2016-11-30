@@ -27,7 +27,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ta3-ah-PEm">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultPoster" translatesAutoresizingMaskIntoConstraints="NO" id="ta3-ah-PEm">
                                             <rect key="frame" x="0.0" y="0.0" width="69" height="69"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -92,7 +92,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Yyx-ZQ-ohv" userLabel="All Stack">
                                 <rect key="frame" x="0.0" y="64" width="375" height="494"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sBb-Qk-5nu">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultPoster" translatesAutoresizingMaskIntoConstraints="NO" id="sBb-Qk-5nu">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
                                         <gestureRecognizers/>
                                         <constraints>
@@ -191,12 +191,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ROl-ya-y6F">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROl-ya-y6F">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ROl-ya-y6F" secondAttribute="trailing" id="7fo-Qp-i74"/>
+                            <constraint firstItem="ROl-ya-y6F" firstAttribute="leading" secondItem="xwo-0O-mA4" secondAttribute="leading" id="EAn-cL-Xdf"/>
+                            <constraint firstItem="Pij-yt-rZ6" firstAttribute="top" secondItem="ROl-ya-y6F" secondAttribute="bottom" id="Y1d-JJ-FBu"/>
+                            <constraint firstItem="ROl-ya-y6F" firstAttribute="top" secondItem="xwo-0O-mA4" secondAttribute="top" id="wWb-aN-Ksn"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="scroller" destination="ROl-ya-y6F" id="aCj-9r-lUd"/>
@@ -229,7 +234,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wqb-Jp-ysE">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultPoster" translatesAutoresizingMaskIntoConstraints="NO" id="Wqb-Jp-ysE">
                                             <rect key="frame" x="0.0" y="0.0" width="124" height="124"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -367,6 +372,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="defaultPoster" width="540" height="540"/>
         <image name="emptyHeart" width="25" height="25"/>
         <image name="emptyMovie" width="25" height="25"/>
         <image name="filledHeart" width="25" height="25"/>

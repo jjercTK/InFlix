@@ -13,24 +13,23 @@ class MovieTableViewController: UITableViewController {
     // MARK: Properties
     
     var movies = [Movie]()
-    var filteredMovies = [Movie]()
     let searchController = UISearchController(searchResultsController: nil)
+    var searchTask: URLSessionDataTask?
+    
+    let loadingView = UIView()
+    let spinner = UIActivityIndicatorView()
+    let loadingLabel = UILabel()
     
     // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadSampleMovies()
+        //loadSampleMovies()
         addFavoriteObservers()
-        
-        // Setup search bar
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        definesPresentationContext = true
-        searchController.dimsBackgroundDuringPresentation = false
-        tableView.tableHeaderView = searchController.searchBar
-
+        setupSearchBar()
+        setLoader()
+        setupStyle()
     }
     
     deinit {
@@ -39,17 +38,85 @@ class MovieTableViewController: UITableViewController {
     
     // MARK: Methods
     
-    func loadSampleMovies(){
-        for _ in 0...10 {
-            movies += [Movie()]
+    private func setupSearchBar() {
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.scopeButtonTitles = [
+            NetflixRoulette.ParameterKeys.Title,
+            NetflixRoulette.ParameterKeys.Director,
+            NetflixRoulette.ParameterKeys.Actor
+        ]
+    }
+    
+//    private func loadSampleMovies(){
+//        for _ in 0...10 {
+//            movies += [Movie()]
+//        }
+//    }
+    func setupStyle(){
+        
+    }
+    
+    
+    func filterContentForSearchText(_ searchText: String, scope: String) {
+        
+        if let task = searchTask {
+            task.cancel()
+        }
+        
+        movies = [Movie]()
+        tableView?.reloadData()
+        
+        startLoading()
+        searchTask = NetflixRoulette.client().getMovies(searchText, from: scope) { (movies) in
+            DispatchQueue.main.async {
+                self.stopLoading()
+            }
+            self.searchTask = nil
+            if let movies = movies {
+                self.movies = movies
+                DispatchQueue.main.async {
+                    self.tableView!.reloadData()
+                }
+            }
         }
     }
     
-    func filterContentForSearchText(_ searchText: String) {
-        filteredMovies = movies.filter({( movie : Movie) -> Bool in
-            return movie.title!.lowercased().contains(searchText.lowercased())
-        })
-        tableView.reloadData()
+    private func setLoader(){
+        //setup loadingView
+        let width: CGFloat = 120
+        let height: CGFloat = 30
+        let x = (self.tableView.frame.width / 2) - (width / 2)
+        let y = (self.tableView.frame.height / 2) - (height / 2) - (self.navigationController?.navigationBar.frame.height)!
+        loadingView.frame = CGRect(x: x, y: y, width: width, height: height)
+        
+        // Sets loading text
+        loadingLabel.textColor = UIColor.gray
+        loadingLabel.textAlignment = NSTextAlignment.center
+        loadingLabel.text = "Loading..."
+        loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
+        
+        //setup spinner
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        spinner.startAnimating()
+        
+        //add views
+        loadingView.addSubview(loadingLabel)
+        loadingView.addSubview(spinner)
+        
+        tableView.addSubview(loadingView)
+        loadingView.isHidden = true
+    }
+    
+    func startLoading(){
+        loadingView.isHidden = false
+    }
+    
+    func stopLoading(){
+        loadingView.isHidden = true
     }
     
     // MARK: UITableViewDataSource
@@ -59,9 +126,6 @@ class MovieTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if shouldShowFilteredMovies() {
-            return filteredMovies.count
-        }
         return movies.count
     }
     
@@ -69,19 +133,11 @@ class MovieTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView .dequeueReusableCell(withIdentifier: Storyboard.MovieTableViewCell, for: indexPath) as! MovieTableViewCell
         let movie: Movie
-        if shouldShowFilteredMovies() {
-            movie = filteredMovies[indexPath.row]
-        } else {
-            movie = movies[indexPath.row]
-        }
+        movie = movies[indexPath.row]
         cell.movie = movie
         cell.delegate = self
         
         return cell
-    }
-    
-    func shouldShowFilteredMovies() -> Bool {
-        return searchController.isActive && searchController.searchBar.text != ""
     }
     
     // MARK: Navigation
@@ -120,18 +176,18 @@ extension MovieTableViewController: UISearchBarDelegate {
     
     // MARK: UISearchBarDelegate
     
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchBar.text!)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        filterContentForSearchText(searchText, scope: scope)
     }
     
-}
-
-extension MovieTableViewController: UISearchResultsUpdating {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        let scope = searchBar.scopeButtonTitles![selectedScope]
+        filterContentForSearchText(searchBar.text!, scope: scope)
+    }
     
-    // MARK: UISearchResultsUpdating
-
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
 }

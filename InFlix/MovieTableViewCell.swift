@@ -20,9 +20,15 @@ class MovieTableViewCell: UITableViewCell {
         didSet {
             titleLabel.text = movie!.title
             categoryLabel.text = movie!.category
-            ratingLabel.text = String(describing: movie!.rating!)
+            ratingLabel.text = "\(movie!.rating!)"
             yearLabel.text = String(describing: movie!.year!)
-            poster.image = movie!.poster
+            let _ = NetflixRoulette.client().taskForGETImage(url: movie!.posterURL!){ (imageData, error) in
+                if error == nil {
+                    self.poster.image = UIImage(data: imageData!)
+                } else {
+                    self.poster.image = #imageLiteral(resourceName: "defaultPoster")
+                }
+            }
             heart.isHighlighted = movie!.isFavorite
         }
     }
