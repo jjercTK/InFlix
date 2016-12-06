@@ -13,12 +13,14 @@ class MovieTableViewController: UITableViewController {
     // MARK: Properties
     
     var movies = [Movie]()
-    let searchController = UISearchController(searchResultsController: nil)
+    var searchController: CustomSearchController!
     var searchTask: URLSessionDataTask?
     
     let loadingView = UIView()
     let spinner = UIActivityIndicatorView()
     let loadingLabel = UILabel()
+    
+    var displaySearchBar = false
     
     // MARK: Life Cycle
 
@@ -27,38 +29,46 @@ class MovieTableViewController: UITableViewController {
         
         //loadSampleMovies()
         addFavoriteObservers()
-        setupSearchBar()
+        configureCustomSearchController()
         setLoader()
-        setupStyle()
     }
     
     deinit {
         removeFavoriteObservers()
     }
     
+    // MARK: Actions
+    
+    @IBAction func searchButtonClicked(_ sender: UIBarButtonItem) {
+        if displaySearchBar {
+            tableView.tableHeaderView = searchController.customSearchBar
+        } else {
+            tableView.tableHeaderView = nil
+            searchController.isActive = false
+        }
+        displaySearchBar = !displaySearchBar
+    }
+    
+    
     // MARK: Methods
     
-    private func setupSearchBar() {
-        searchController.searchBar.delegate = self
-        definesPresentationContext = true
+    func configureCustomSearchController() {
+        
+        let searchBarFrame = CGRect(x: 0.0, y: 0.0, width: tableView.frame.size.width, height: 50.0)
+        searchController = CustomSearchController(searchResultsController: self, searchBarFrame: searchBarFrame, searchBarFont: FontHelper.text, searchBarTextColor: ColorHelper.white, searchBarTintColor: ColorHelper.black)
+        
+        searchController.customSearchBar.placeholder = "Search"
         searchController.dimsBackgroundDuringPresentation = false
-        tableView.tableHeaderView = searchController.searchBar
-        searchController.searchBar.scopeButtonTitles = [
+        tableView.tableHeaderView = searchController.customSearchBar
+        searchController.customSearchBar.delegate = self
+        definesPresentationContext = true
+        searchController.customSearchBar.scopeButtonTitles = [
             NetflixRoulette.ParameterKeys.Title,
             NetflixRoulette.ParameterKeys.Director,
             NetflixRoulette.ParameterKeys.Actor
         ]
+        searchController.customSearchBar.isHidden = false
     }
-    
-//    private func loadSampleMovies(){
-//        for _ in 0...10 {
-//            movies += [Movie()]
-//        }
-//    }
-    func setupStyle(){
-        
-    }
-    
     
     func filterContentForSearchText(_ searchText: String, scope: String) {
         
@@ -118,6 +128,7 @@ class MovieTableViewController: UITableViewController {
     func stopLoading(){
         loadingView.isHidden = true
     }
+    
     
     // MARK: UITableViewDataSource
     
@@ -187,6 +198,10 @@ extension MovieTableViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
     
