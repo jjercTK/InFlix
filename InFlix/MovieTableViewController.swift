@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
 class MovieTableViewController: UITableViewController {
     
@@ -31,6 +32,7 @@ class MovieTableViewController: UITableViewController {
         addFavoriteObservers()
         configureCustomSearchController()
         setLoader()
+        emptyDataSet()
     }
     
     deinit {
@@ -220,6 +222,28 @@ extension MovieTableViewController: FavoriteMovieManager {
                 break
             }
         }
+    }
+    
+}
+
+extension MovieTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    
+    func emptyDataSet(){
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "Welcome to InFlix!"
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "Search a movie for your next\n Netflix n' chill session ;)"
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
     }
     
 }
