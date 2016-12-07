@@ -9,7 +9,7 @@
 import UIKit
 import DZNEmptyDataSet
 
-class MovieTableViewController: UITableViewController {
+class MovieTableViewController: UIViewController {
     
     // MARK: Properties
     
@@ -22,13 +22,16 @@ class MovieTableViewController: UITableViewController {
     let loadingLabel = UILabel()
     
     var displaySearchBar = false
+    @IBOutlet weak var tableView: UITableView!
     
     // MARK: Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //loadSampleMovies()
+        tableView.delegate = self
+        tableView.dataSource = self
         addFavoriteObservers()
         configureCustomSearchController()
         setLoader()
@@ -129,30 +132,8 @@ class MovieTableViewController: UITableViewController {
         loadingView.isHidden = true
     }
     
-    
-    // MARK: UITableViewDataSource
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView .dequeueReusableCell(withIdentifier: Storyboard.MovieTableViewCell, for: indexPath) as! MovieTableViewCell
-        let movie: Movie
-        movie = movies[indexPath.row]
-        cell.movie = movie
-        cell.delegate = self
-        
-        return cell
-    }
-    
     // MARK: Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Storyboard.ShowMovieViewController?:
@@ -166,13 +147,13 @@ class MovieTableViewController: UITableViewController {
             print("unknown segue")
         }
     }
-
+    
 }
 
 extension MovieTableViewController: MovieCellDelegate {
     
     // MARK: MovieCellDelegate
-   
+    
     func movieCell(_ movieCell: MovieTableViewCell, didToogleButton toogle: Bool) {
         if toogle {
             NotificationCenter.default.post(Notification(name: NotificationCenterKey.AddFavorite, object: movieCell.movie, userInfo: nil))
@@ -258,3 +239,25 @@ extension MovieTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelega
     
 }
 
+extension MovieTableViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    // MARK: UITableViewDataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView .dequeueReusableCell(withIdentifier: Storyboard.MovieTableViewCell, for: indexPath) as! MovieTableViewCell
+        let movie: Movie
+        movie = movies[indexPath.row]
+        cell.movie = movie
+        cell.delegate = self
+        
+        return cell
+    }
+}
