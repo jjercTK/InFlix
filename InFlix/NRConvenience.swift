@@ -13,7 +13,7 @@ extension NetflixRoulette {
     func getMovies(_ search: String?, from scope: String, completionHandlerForMovies: @escaping (_ results: [Movie]?) -> Void) -> URLSessionDataTask?{
         
         /* 1. Specify parameters */
-        let parameters = [scope: search]
+        let parameters = [scope.lowercased(): search]
         
         /* 2. Make the request */
         let task = taskForGETMethod(nil, parameters: parameters as [String:AnyObject]) { (results, error) in

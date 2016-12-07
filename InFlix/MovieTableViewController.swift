@@ -43,12 +43,10 @@ class MovieTableViewController: UITableViewController {
     
     @IBAction func searchButtonClicked(_ sender: UIBarButtonItem) {
         if displaySearchBar {
-            tableView.tableHeaderView = searchController.customSearchBar
+            showSearchBar()
         } else {
-            tableView.tableHeaderView = nil
-            searchController.isActive = false
+            hideSearchBar()
         }
-        displaySearchBar = !displaySearchBar
     }
     
     
@@ -65,9 +63,9 @@ class MovieTableViewController: UITableViewController {
         searchController.customSearchBar.delegate = self
         definesPresentationContext = true
         searchController.customSearchBar.scopeButtonTitles = [
-            NetflixRoulette.ParameterKeys.Title,
-            NetflixRoulette.ParameterKeys.Director,
-            NetflixRoulette.ParameterKeys.Actor
+            NetflixRoulette.ParameterKeys.Title.capitalizingFirstLetter(),
+            NetflixRoulette.ParameterKeys.Director.capitalizingFirstLetter(),
+            NetflixRoulette.ParameterKeys.Actor.capitalizingFirstLetter()
         ]
         searchController.customSearchBar.isHidden = false
     }
@@ -200,11 +198,23 @@ extension MovieTableViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        hideSearchBar()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+    
+    func hideSearchBar(){
+        tableView.tableHeaderView = nil
+        searchController.isActive = false
+        displaySearchBar = true
+    }
+    
+    func showSearchBar(){
+        tableView.tableHeaderView = searchController.customSearchBar
+        displaySearchBar = false
+        //tableView.setContentOffset(CGPoint.zero, animated: true)
     }
     
 }
@@ -241,7 +251,7 @@ extension MovieTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelega
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Search a movie for your next\n Netflix n' chill session ;)"
+        let str = "Search a movie for your next\n Netflix n' Chill session ;)"
         let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
         return NSAttributedString(string: str, attributes: attrs)
     }
