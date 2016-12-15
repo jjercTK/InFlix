@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DZNEmptyDataSet
+//import DZNEmptyDataSet
 
 class MovieTableViewController: UIViewController {
     
@@ -17,9 +17,10 @@ class MovieTableViewController: UIViewController {
     var searchController: CustomSearchController!
     var searchTask: URLSessionDataTask?
     
-    let loadingView = UIView()
-    let spinner = UIActivityIndicatorView()
-    let loadingLabel = UILabel()
+    var loadingView = LoadingView()
+    var emptyView = EmptyView()
+    var errorView = ErrorView()
+    var state: ViewControllerState = .Empty
     
     var displaySearchBar = false
     @IBOutlet weak var tableView: UITableView!
@@ -29,13 +30,15 @@ class MovieTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //loadSampleMovies()
+//        loadSampleMovies()
         tableView.delegate = self
         tableView.dataSource = self
         addFavoriteObservers()
         configureCustomSearchController()
-        setLoader()
-        emptyDataSet()
+        changeState(to: state)
+//        setLoader()
+//        emptyDataSet()
+        
     }
     
     deinit {
@@ -83,9 +86,9 @@ class MovieTableViewController: UIViewController {
         tableView?.reloadData()
         
         startLoading()
-        searchTask = NetflixRoulette.client().getMovies(searchText, from: scope) { (movies) in
+        searchTask = NetflixRoulette.client().getMovies(searchText, from: scope) { (movies, error) in
             DispatchQueue.main.async {
-                self.stopLoading()
+                self.endLoading(withError: error)
             }
             self.searchTask = nil
             if let movies = movies {
@@ -95,41 +98,6 @@ class MovieTableViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    private func setLoader(){
-        //setup loadingView
-        let width: CGFloat = 120
-        let height: CGFloat = 30
-        let x = (self.tableView.frame.width / 2) - (width / 2)
-        let y = (self.tableView.frame.height / 2) - (height / 2) - (self.navigationController?.navigationBar.frame.height)!
-        loadingView.frame = CGRect(x: x, y: y, width: width, height: height)
-        
-        // Sets loading text
-        loadingLabel.textColor = UIColor.gray
-        loadingLabel.textAlignment = NSTextAlignment.center
-        loadingLabel.text = "Loading..."
-        loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
-        
-        //setup spinner
-        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        spinner.startAnimating()
-        
-        //add views
-        loadingView.addSubview(loadingLabel)
-        loadingView.addSubview(spinner)
-        
-        tableView.addSubview(loadingView)
-        loadingView.isHidden = true
-    }
-    
-    func startLoading(){
-        loadingView.isHidden = false
-    }
-    
-    func stopLoading(){
-        loadingView.isHidden = true
     }
     
     // MARK: Navigation
@@ -217,27 +185,27 @@ extension MovieTableViewController: FavoriteMovieManager {
     
 }
 
-extension MovieTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    
-    func emptyDataSet(){
-        tableView.emptyDataSetSource = self
-        tableView.emptyDataSetDelegate = self
-        tableView.tableFooterView = UIView()
-    }
-    
-    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Welcome to InFlix!"
-        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
-        return NSAttributedString(string: str, attributes: attrs)
-    }
-    
-    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Search a movie for your next\n Netflix n' Chill session ;)"
-        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
-        return NSAttributedString(string: str, attributes: attrs)
-    }
-    
-}
+//extension MovieTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+//    
+//    func emptyDataSet(){
+//        tableView.emptyDataSetSource = self
+//        tableView.emptyDataSetDelegate = self
+//        tableView.tableFooterView = UIView()
+//    }
+//    
+//    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+//        let str = "Welcome to InFlix!"
+//        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+//        return NSAttributedString(string: str, attributes: attrs)
+//    }
+//    
+//    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+//        let str = "Search a movie for your next\n Netflix n' Chill session ;)"
+//        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+//        return NSAttributedString(string: str, attributes: attrs)
+//    }
+//    
+//}
 
 extension MovieTableViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -260,4 +228,62 @@ extension MovieTableViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+}
+
+extension MovieTableViewController: StatefulViewController {
+    
+    internal var currentState: ViewControllerState {
+        get {
+            return state
+        }
+        set {
+            state = newValue
+        }
+    }
+
+    
+    weak internal var loadingStateView: UIView? {
+        get {
+            return loadingView
+        }
+        set {
+            loadingView = newValue as! LoadingView
+        }
+    }
+    
+    weak internal var emptyStateView: UIView? {
+        get {
+            return emptyView
+        }
+        set {
+            emptyView = newValue as! EmptyView
+        }
+    }
+    
+    weak internal var errorStateView: UIView? {
+        get {
+            return errorView
+        }
+        set {
+            errorView = newValue as! ErrorView
+        }
+    }
+    
+    func hasContent() -> Bool {
+        return !movies.isEmpty
+    }
+
+    
+    func placeholderViewConstraints() -> [NSLayoutConstraint] {
+        if let currentView = currentView {
+            let leadingConstraint = NSLayoutConstraint(item: currentView, attribute: .leading, relatedBy: .equal, toItem: tableView, attribute: .leading, multiplier: 1.0, constant: 0.0)
+            let trailingConstraint = NSLayoutConstraint(item: currentView, attribute: .trailing, relatedBy: .equal, toItem: tableView, attribute: .trailing, multiplier: 1.0, constant: 0.0)
+            let bottomConstraint = NSLayoutConstraint(item: currentView, attribute: .bottom, relatedBy: .equal, toItem: bottomLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
+            let topConstraint = NSLayoutConstraint(item: currentView, attribute: .top, relatedBy: .equal, toItem: searchController.customSearchBar, attribute: .bottom, multiplier: 1.0, constant: 63)
+        
+            return [leadingConstraint, trailingConstraint,bottomConstraint, topConstraint]
+        }
+        return []
+    }
+
 }

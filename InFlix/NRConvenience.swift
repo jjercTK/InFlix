@@ -10,7 +10,7 @@ import Foundation
 
 extension NetflixRoulette {
     
-    func getMovies(_ search: String?, from scope: String, completionHandlerForMovies: @escaping (_ results: [Movie]?) -> Void) -> URLSessionDataTask?{
+    func getMovies(_ search: String?, from scope: String, completionHandlerForMovies: @escaping (_ results: [Movie]?, _ error: Error?) -> Void) -> URLSessionDataTask?{
         
         /* 1. Specify parameters */
         let parameters = [scope.lowercased(): search]
@@ -20,17 +20,16 @@ extension NetflixRoulette {
             
             /* 3. Send the desired value(s) to completion handler */
             if error != nil {
-                completionHandlerForMovies(nil)
+                completionHandlerForMovies(nil, error)
             } else {
-                
                 if let results = results as? [[String:AnyObject]] {
                     let movies = Movie.moviesFromResults(results)
-                    completionHandlerForMovies(movies)
+                    completionHandlerForMovies(movies,nil)
                 } else if let result = results as? [String:AnyObject]{
                     let movie = Movie(dictionary: result)
-                    completionHandlerForMovies([movie])
+                    completionHandlerForMovies([movie],nil)
                 } else {
-                    completionHandlerForMovies(nil)
+                    completionHandlerForMovies(nil,nil)
                 }
             }
         }
