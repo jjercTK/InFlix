@@ -55,7 +55,7 @@ extension StatefulViewController {
     
     func endLoading(withError error:Error?){
         
-        if let error = error {
+        if let _ = error {
             changeState(to: .Error)
             return
         }

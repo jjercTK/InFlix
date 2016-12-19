@@ -87,14 +87,16 @@ class MovieTableViewController: UIViewController {
         
         startLoading()
         searchTask = NetflixRoulette.client().getMovies(searchText, from: scope) { (movies, error) in
-            DispatchQueue.main.async {
-                self.endLoading(withError: error)
-            }
-            self.searchTask = nil
+                        self.searchTask = nil
             if let movies = movies {
                 self.movies = movies
                 DispatchQueue.main.async {
                     self.tableView!.reloadData()
+                    self.endLoading(withError: error)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.endLoading(withError: error)
                 }
             }
         }
